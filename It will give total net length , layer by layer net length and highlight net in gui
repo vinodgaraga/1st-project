@@ -1,0 +1,31 @@
+# AUTHOR : KARTIK PATEL
+# PLATFROM : TCLSH
+# LAST UPDATE : 07/04/2023
+#Output :- It will give total net length , layer by layer net length and highlight net in gui .
+#Ex :- netlength CTS_6424
+#Net_name = CTS_6424
+#Total_length = 146.741
+#{M2 0.134 } {M3 0.049 } {M4 0.058 } {M5 0.408 } {M6 0.456 } {M7 3.12 } {M8 0.76 } {M9 0.88 } {M10 8.348 } {M11 53.4 } {M12 79.128 }
+
+puts "Usage : netlength <net_name> ;# Script will highlight net in GUI"
+
+proc netlength { net_name } {
+set Total_length [ expr [join [dbget [dbget -p1 top.nets.name $net_name].wires.length ] " + "] ]
+#set layerlist [ dbget -u [dbget -p1 top.nets.name $net_name].wires.layer.name ]
+set layer_length ""
+set metal 14
+for { set i 1 } { $i <= $metal } { incr i } {
+deselectAll
+selectNet $net_name
+if { [dbget -e [dbget -p2 selected.wires.layer.name M$i].length ] != "" } {
+set len [expr [join [dbget [dbget -p2 selected.wires.layer.name M$i].length ] " + "]]
+set layer "M[expr $i - 1 ]"
+lappend layer_length "$layer $len "
+}
+}
+puts "Net_name = $net_name"
+puts "Total_length = $Total_length"
+puts "$layer_length"
+}
+
+![Uploading image.png…]()
