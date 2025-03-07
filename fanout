@@ -1,0 +1,24 @@
+# project1
+# AUTHOR : KARTIK PATEL
+# PLATFROM : TCLSH
+# LAST UPDATE : 07/04/2023
+
+#Usage :- source Flop_fanout_check.tcl ;# in innvous session
+#Output :- fflist_of_fanout_greaterthan_3k.rpt ; # it will report the flop/gater which have fanout more than 3k fanout
+#	   fflist_of_fanout_lessthan_3k.rpt ; # it wil report the flop/gater which have fanout less than 3k fanout
+
+set fp [ open "fflist_of_fanout_greaterthan_3k.rpt" w ]
+set fp2 [ open "fflist_of_fanout_lessthan_3k.rpt" w ]
+#set reglist [ get_object_name [ all_registers ] ]
+set reglist [ get_object_name [ get_cells  [ all_registers ] -filter "full_name !~ ADDED_BONUS_*" ] ]
+foreach r1 $reglist {
+set fanout_num  [ sizeof_collection [ remove_from_collection [all_fanout -from [get_pins -of_objects $r1 -filter "direction == out && is_clock ==false  && name !~ SE && name !~ SI "] -endpoints_only -only_cells ] [get_cells $r1] ] ]
+ if { $fanout_num >= 3000 } {
+     	    puts $fp " $r1 $fanout_num "
+	} else {
+ 	    puts $fp2 " $r1 $fanout_num "
+	}
+}
+close $fp
+close $fp2
+puts " Check this file :- fflist_of_fanout_greaterthan_3k.rpt ; fflist_of_fanout_lessthan_3k.rpt "
