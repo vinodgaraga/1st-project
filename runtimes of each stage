@@ -1,0 +1,65 @@
+#AUTHOR : KARTIK PATEL
+# PLATFROM : TCSH
+# LAST UPDATE : 07/05/2023
+
+
+##USAGE :- Source in your Innovus run directory.
+#OUTPUT :- It will print all stage runtime.(Which you have ran in that particular runarea) 
+#EX. :-
+############################
+#STAGE_NAME  RUN_TIME
+############################
+#enc_flp  1 Hour 44 min
+#enc_plc  50 Hour 57 min
+#enc_clk  46 Hour 21 min
+#enc_rut  97 Hour 47 min
+#enc_mcf  51 Hour 42 min
+############################
+#Total run time  248 Hour 31 min 
+############################
+
+
+#! /bin/tcsh
+
+set total_run_time=0
+echo "###########################"
+echo "STAGE_NAME  RUN_TIME"
+echo "###########################"
+if ( -f "logfiles/enc_flp/last_innovus.log") then
+set run_time=`grep "stage run time:" logfiles/enc_flp/last_innovus.log | awk '{ print $(NF-1),$NF }' | sed 's/hours/Hour/g'`
+if ( "$run_time" != "" ) then
+set hour=`grep "stage run time:" logfiles/enc_flp/last_innovus.log | awk '{ print $(NF-1)}' | awk -F: '{ print $1 }'`
+set min=`grep "stage run time:" logfiles/enc_flp/last_innovus.log | awk '{ print $(NF-1)}' | awk -F: '{ print $2 }'`
+set hour_min=`expr $hour \* 60`
+set Total_min=`expr $hour_min + $min`
+set total_run_time=`expr $total_run_time + $Total_min`
+set run_time="$hour Hour $min min"
+else 
+set run_time="Not runned"
+endif
+else
+set run_time="Not runned"
+endif
+echo "enc_flp  $run_time"
+
+
+foreach stage ( enc_plc enc_clk enc_rut enc_mcf )
+if ( -f "report/$stage/summary.rpt") then
+set run_time=`grep "RUN TIME" report/$stage/summary.rpt | awk '{ print $NF }'`
+set hour=`grep "RUN TIME" report/$stage/summary.rpt | awk '{ print $NF}' | awk -F: '{ print $1 }'`
+set min=`grep "RUN TIME" report/$stage/summary.rpt | awk '{ print $NF}' | awk -F: '{ print $2 }' | sed 's/Hour//g'`
+set hour_min=`expr $hour \* 60`
+set Total_min=`expr $hour_min + $min`
+set total_run_time=`expr $total_run_time + $Total_min`
+set run_time="$hour Hour $min min"
+else
+set run_time="Not runned"
+endif
+echo "$stage  $run_time"
+end
+set total_run_time_hour=`expr $total_run_time / 60`
+set total_run_time_min=`expr $total_run_time - $total_run_time_hour \* 60`
+#set total_run_time=`echo "scale=2;$total_run_time / 60 "| bc -l `
+echo "###########################"
+echo "Total run time  $total_run_time_hour Hour $total_run_time_min min "
+echo "###########################"
