@@ -1,0 +1,1059 @@
+To setup the project 
+
+1.proj_swgrp t100 techtsmc003p fiptsmc003p shastaa0 
+
+   Enter password: 
+
+2.marshell t100 T100_Model_Code_Complete -n T100_Model_Code_Complete -t Backend -u dbc2 
+
+Marshell is the command to setup the project environment. It configures entire project environment. We should use correct marshell. 
+
+T100 --> project name 
+
+T100_Model_Code_Complete ---> is the model name of current RTL. Its like milestone.It will also define the tool version we are using. 
+
+-n <name>  ----> this can be anything , is the ward area. If multiple runs are fired on single block we can change this name for understanding. 
+
+-t Backend ---> This we should mention otherwise backend tools will not available along with all tools. To configure backend tools. 
+
+-u dbc2 ---> -u stands for unique and dbc2 is block name. We have to make sure one block souldn't collect other block RTL. So we need to mention -u <block name> for correct RTL pick. 
+
+-ovrd mate 2024_09_09 ---> ovrd is override , this can be used for version change. help us override default configuration set by the marshell. Multiple -ovrd's we can use if we want to change the more tool versions. 
+
+ 
+
+Model_preinit_RTL3 : it is not matured RTL 
+
+Mode_code_complete: RTL should be complete and design is freezed 
+
+Model_top_freeze: we are going to do top freeze at top level(FC) 
+
+Model_RTL_freeze: This is the final milestone. This is the last model for Backend team final convergence. After this all the fixes will do by ECO's. We don’t have any option to go back. 
+
+Some times we will have other model also based on project requirement Model_init_RTL. 
+
+ 
+
+Note: if we open new tab we need to execute above commands to setup the proj environment 
+
+ 
+
+Disk area 
+
+ 
+
+store_macro_1 :- In this disk all the runs related reports , logfiles and outputs are linked. 
+
+   if we want to copy any data to full chip, we have separate flow. By using that we will checkin the data and that data is available in $BLOCKS_DATA directory. 
+
+  If we delete data from wa/asamana/ward_name, then we need to remove from store_macro dir also. 
+
+   if data is removed , we can backup 2 days data only. 
+
+Store_session_1 :- used to store small files. Primetime sessions will be stored. 
+
+ 
+
+Sungrid  
+
+ 
+
+Usually backend flows will not run on local VNC machines.  
+
+This command helps us to check the runs which we fired. 
+
+Sungrid tool help us manage our jobs and sends the jobs to external machines. 
+
+ 
+
+Commands 
+
+mqs – get status of my jobs  
+
+sgstat – Show all current grid jobs 
+
+sgdel <job_id> 
+         Delete your grid job that has the job ID job_id. 
+
+sgtop -sghost <host_name> 
+         Runs top on host <host_name> 5 times for the user’s     processes and outputs to the sungrid_stdout file. 
+
+ 
+
+To check the version of the tool after run , like which version tool have used we can go to below path 
+
+ 
+
+
+ 
+
+To check which marshell command we have used 
+
+
+ 
+
+When I want to execute a new marshell can I execute in the new xterm or can we continue on the same xterm ? 
+
+Is it override the existing data? 
+
+If we want to edit few things in sdc for time being how we have to do? Can we edit like that? 
+
+Is local scripts will be inside workarea  
+MODELS/Backend/dbc2/syn in this path based on the flow? If we have any settings related to optimization like group paths creation and all where can we add them? 
+
+We will have block settings and user settings in mate flow there we can add those settings related to block. 
+
+ 
+
+Directories structure: 
+
+All project related files will be available in below directories 
+
+~t100/models ---> RTL models will be there,rtl related files will be there. 
+
+~t100/be ---> we will have def, sdc and all backend related files and files related project and block settings 
+
+~t100/tech ---> tech files and tech related files will be there 
+
+~t100/libset ---> we will have information like, lef, sdc, verilog,oasis all info will be there. 
+
+ 
+
+ 
+
+ 
+
+echo $library_path ---> will give the lib cells path which we are using 
+
+echo $tech_path ---> will give the tech path which we are using 
+
+echo $proj_sdc_root ---> for sdc path 
+
+less $BACKEND_TEMPLATE ---> we have powergrid files,ndr and some physical cells related files etc., 
+
+Less $genus_synt_template ---> we have files related steps which are running during synthesis under flows directory. 
+
+  setup_rc.advanced.tcl will have all the ivars which are executing during genus_syn flow 
+
+Less $genus_synt_scripts ---> all the procs will read from this path related to synthesis. All procs will be there related to innovus runs. 
+
+Less $edi_env_templates ---> we will have innovus_setup and innovus_setup_advanced files. 
+
+Less $edi_env_templates ---> we will have procs which we are using in innovus 
+
+Less $sta_template ---> we have files related to primetime 
+
+Less $sta_procs ---> we have procs related to sta 
+
+Less $ext_pr_template ---> extraction files 
+
+Less $lec_template ---> we have setup and other files 
+
+$work_area_root --> to go to work area. 
+
+$proj_template ---> we will have all project related informations like scenarios setups, proj related ivars etc., 
+
+$mate_scripts ---> we have scripts related to mate flow 
+
+Us/<unixid>/<user related files>   ---> this is the path we will keep user related files. 
+
+ 
+
+Ndf -l -g ---> will give the disk quota 
+
+Ndf -l -g -u asamana ---> to get the disk quota of particular person 
+
+ 
+
+During syn we are activating only 1 scenario func setup slow c worst 40 
+
+Pnr only 4 scenarios are activated. 
+
+   setup slow slow c worst 40 
+
+   setup slow slow rc worst 125 
+
+   hold  fast rc best 40 
+
+   hold fast rc worst 40 
+
+#######################################################
+Internal routing blockages 
+
+ 
+
+Mem : m0-m4 
+
+tcam : m0-m5 
+
+dro : m0-m6 
+
+tcd : m0-m13 
+
+elvt's are not supposed to use 
+
+##################################################
+Above ivar will decide which ttype of synthesis we are doing.  
+
+  3 types we have 
+
+1.logical 
+
+2.hybrid 
+
+3.physical. 
+
+ 
+
+ 
+
+There are 6 stages 
+
+ 
+
+Rc_2_synt 
+
+ 
+
+
+ 
+
+ 
+
+Less $genus_syn_template/flows  ---> all flow scripts will be there 
+
+ less $genus_syn_scripts/procs ---> each proc scripts will be there which are using in do file. 
+
+Less $project_exchange_dir/hierarchical_reports ---> we have the files related to our block, this files will be there in work area also 
+
+ 
+
+To get the clocks in the design we have to go to $project_sdc_root/external_sdc 
+
+ 
+
+What reports we need to go after synthesis? 
+
+                                   a) logic cell count 
+
+                                   b) mate errors 
+
+                                   c) undriven pins 
+
+                                   d) Qor 
+
+                                   e) removed registers 
+
+                                   f) lint issues 
+
+                                   g) check_design 
+
+                                   h) clock gate info 
+
+                                    i) multibit info 
+
+                   1. cells count and area(to check the cells count area of those cells)  ----> current/work/dbc2.hierarchicalcellstats.rc_5_final.rpt 
+
+                   2. mate errors and history -----> current/work/genus_syn /mate/history and mate.log 
+
+                   3. report should be clean  ------> current/report/check_design.undriven_pins.rc_1_elab.rpt 
+
+                       ignore_undriven ivar is set to 1, till rtl fix completed this can be expected as 1, because we don’t want to stop the flow 
+
+                   4. current/report/rc_2_synt/source.sdc_func.rpt.gz 
+
+                            if we have errors related to sampled by 2 different clocks, if it is reset pin we can ignore, if it is signal pin we need to check 
+
+                   5. qor need to be checked ----> current/report/rc_5_final/rep 
+
+                   6. Need to check the registers which are removed during synthesis(it can impact our design area so we need to check them) ----> current/report/rc_5_final/dbc2.removed_regs.rpt.gz (need to check with designer) 
+
+                   7. lint related issues has to be checked(undriven clocks, unclocked seq,seq having multiple clocks) ---> current/report/ 
+
+                   8. check_design.rpt.gz ---> for design summary 
+
+                   9. dbc2_CG_statistic.simple.rpt.gz ----> for clock gate information. 
+
+                  10. multibit information ----> dbc2.multibit_inst_count.rpt.gz  
+
+                            and we have multibit_unloaded ---> these are registers that are removed in later stages 
+
+                  11. multibit merging (to check why the flops are merged) ----> current/logfiles rc_2_synt 
+
+                  12. firefox current/dataout/genus_syn/Scouter.html 
+
+                  13. mapped_before_ungroup ----> we have all the timing ,area,design,cgs information before ungroup. 
+
+                  14. ungated flops (need to check ungated flops informations also and discuss with designed as these are expected or not)  -----> ungated_flops_advanced.tcl. Detailed information will be there in ungate_flops_default_tool_report.tvcl 
+
+ 
+
+                  15. sw_constraints file frm rc_2_syn ----> here we will have information of ports based on clock stamping 
+
+                  16. source_sdc.func.rpt.gz -----> this contains all the information about sdc, in this file we need to check errors & warnings. 
+
+                  17. source_sdc_post_compile_rc_5_final.rpt ----> it will have dft constraints, prevously before scan we have used sdc file, but after scan we need scan constraints also. So we need to check this file about errors & warnings related dft constraints. 
+
+                  18. json file will have the implementation inform .This we need for other runs. 
+
+                  19. datain directory will have the files which we are going to use for next runs. 
+
+ 
+
+   During rc_1_elab we have few undriven ports those are related to scan out ports. But after final stage those are directly connected to scan logic , so we don’t have any undrivens. 
+
+ 
+
+ 
+
+ 
+
+ATPG(automatic test pattern generator) 
+
+We need to check the scan coverage 
+
+ ls dft/<run_area>/logfiles/dbc2.extest.edt.pattern.gen.log.gz ---> check this as it is critical.Need to check the test_coverage. Criteria is 99.7% 
+
+    if we have 99.45% (below 99.7%) we need to inform to the dft. 
+
+ 
+
+ 
+
+Konquer ---> to open html files 
+
+Firfox ---> can be used to open html files 
+
+############################################
+3 types we have  
+
+    1. lec_rvg 
+
+    2. lec_rvr 
+
+    3. lec_gvg 
+
+ 
+
+For synthesis we don’t have power information so we need to set 
+
+                 set lec_rvg(mate,revised_with_power) 0 
+
+                        for pnr above variable by default is 1. 
+
+Set lec_rvg(mate.files_collection_type) "design_lib" 
+
+   design_lib ---> it will collect rtl from central area 
+
+   local_lib ----> collect rtl from local area. 
+
+Set lec_rvg(lec_vars,change_names_logs,revised) "change_name reports(refer us.dbc2.tcl)" 
+
+Set lec_rvg(lec_vars,implementation_information_revised) <provide the rc_5_final path from current directory> 
+
+  
+
+If I am running lec btwn rtl to finish netlist ,do we need to change the above ivar because it is also lec_rvg ? 
+
+ 
+
+ 
+
+Note: If we have any non_eqs lec shell will not close, in that shell we can debug the reports and check where we are getting non_eqs. 
+
+    Set_gui to open the gui if shell is loaded. 
+
+               we can check verification.rpt.gz to check compare results. 
+
+ 
+
+If anything in the log file having * (ex: yes *)  we need to check in the log file, for which that setting is applied. 
+
+For non_eqs we need to check unmapped points 1st. If unmapped are there we need to debug why. 
+########################################################################
+To get ports and its count 
+
+   1. dbGet top.terms.name   ------> To get all ports in the design. 
+
+   2. llength [dbGet top.terms.name]  ------> To get the count of the ports.  
+
+   3. dbGet top.terms.name pic_ns0_apb_* ------> To get particular ports with pic_ns0_apb*. 
+
+   4. llength [dbGet top.terms.name pic_ns0_apb_*]  ------> To get the count of pic_ns0_apb ports.  
+
+   5. dbGet top.numTerms   ------> To get the count of all ports this command also we can use. We cannot use the pattern to check with this command. 
+
+ 
+
+ 
+
+To Select the ports . 
+
+    1. selectPin  [dbGet top.terms.name] -----> To select the ports 
+
+    2. selectPin  [dbGet top.terms.name pic_ns0_apb_*] -----> To select the particular ports. 
+
+ 
+
+To get the unplaced port names in the design 
+
+      1. dbGet [dbGet -p top.terms.pStatus unplaced].name   -----> Unplaced port names. 
+
+      2. llength [dbGet [dbGet -p top.terms.pStatus unplaced].name]  -----> To get the count of unplaced ports count 
+
+      3. get_ports [dbGet [dbGet -p top.terms.Pstatus unplaced].name] -filter "direction==in" ----> To get unplaced input ports 
+
+      4. sizeof_collection [get_ports [dbGet [dbGet -p top.terms.Pstatus unplaced].name] -filter "direction==in"] ---> To get the count 
+
+      5. get_ports [dbGet [dbGet -p top.terms.Pstatus unplaced].name] -filter "full_name!~*_ft_*"  ------> other than feedthrough ports which are unplaced 
+
+    
+
+To select ports based on status 
+
+      1. selectPin [dbGet [dbGet -p top.terms.pStatus fixed].name] 
+
+      2. dbSet top.terms.pStatus placed ----> To change the status of all ports 
+
+      3. dbSet top.terms.pStatus <pattern> placed   ----> to change the status of particular ports which match the pattern 
+
+      4. editPin -pin [dbGet selected.name ] -fixedPin 0 ---> to change the attribute to unplaced 
+
+      5. editPin -pin [dbGet selected.name ] -fixedPin 1 -----> to change the attribute to fixed 
+
+      6. editPin -pin [dbGet top.terms.pStatus placed] -fixedPin 1 ----> Changing placed to fixed attribute for pins which are placed. 
+
+      7. editPin -pin [dbGet top.terms.pStatus <pattern> ] -fixedPin 1 ------> To change the attribute of particular pattern pins to fixed status. 
+
+      8. dbSet [dbGet top.terms {.pStatus eq {placed}}].pStatus fixed  ------> To change the status to fixed if status is placed. 
+
+ 
+
+To get the macros names and its count 
+
+      1. dbGet [dbGet -p2 top.insts.cell.baseClass block].name ---> to get the macros name 
+
+      2. selectInst [dbGet -p2 top.insts.cell.baseClass block]  ----> to select the macros. 
+
+      3. dbGet [dbGet top.insts.cell.baseClass -p2 block].name *_tx_* ----> To get the particular pattern of macros 
+
+      4. selectInst  [dbGet [dbGet top.insts.cell.baseClass -p2 block].name *_tx_*] ----> to select the particular pattern of macros. 
+
+################################################################################
+
+Ports Details  
+
+ 
+
+Total ports(21971) 
+
+ 
+
+S.No 
+
+Port names 
+
+Count 
+
+1. 
+
+Signal 
+
+9382 
+
+ 
+
+Feedthroughs 
+
+12589 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Left ports 
+
+S.No 
+
+Port names 
+
+Count 
+
+1. 
+
+esb_pic* 
+
+2121 
+
+2. 
+
+pic_bam 
+
+2155 
+
+3. 
+
+Pic_pic* 
+
+95 
+
+4. 
+
+pic_ns0_ucm0* 
+
+2733 
+
+5. 
+
+Other ports 
+
+522 
+
+ 
+
+Total 
+
+7626 
+
+ 
+
+ 
+
+Right top 
+
+ 
+
+S.No 
+
+Port names 
+
+Count 
+
+ 
+
+Sdw0* 
+
+108 
+
+2. 
+
+Sdmux2anp* 
+
+2088 
+
+3. 
+
+anp2sdmux 
+
+233 
+
+ 
+
+ 
+
+2432 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Right _3 side 
+
+ 
+
+S.No 
+
+Port names 
+
+Count 
+
+ 
+
+Anp2sdmux* 
+
+1815 
+
+2. 
+
+other 
+
+32 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Right 4th side 
+
+ 
+
+S.No 
+
+Port names 
+
+Count  
+
+1. 
+
+octal_debug* 
+
+48 
+
+2. 
+
+pic_cpur* 
+
+41 
+
+3. 
+
+pic_pic_telemetry* 
+
+86 
+
+4. 
+
+Other  
+
+27 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Run time summary 
+
+ 
+
+S.No 
+
+Stage 
+
+Run time 
+
+ 
+
+genus_syn 
+
+36:07:17 
+
+ 
+
+enc_flp 
+
+12 hrs 
+
+ 
+
+enc_plc 
+
+68:21Hour 
+
+ 
+
+enc_clk 
+
+55:22Hour 
+
+ 
+
+enc_rut 
+
+143:11Hour 
+
+6. 
+
+enc_mcf 
+
+56:47Hour 
+
+ 
+
+ 
+
+ 
+
+T100_Model_IF: 
+
+ 
+
+DIEAREA ( 3456000 1189760 ) ( 230400 1189760 ) 
+
+( 230400 960960) ( 0 960960 ) 
+
+( 0 0 ) ( 3456000 0 ) ; 
+
+ 
+
+ 
+
+(1728 594.88) (115.2 594.88) 
+
+(115.2 480.74) (0 480.74) 
+
+(0 0) (1728 0) 
+
+ 
+
+ 
+
+(1728 594.88) (115.2 594.88) 
+
+(115.2 480.48) (0 480.48) 
+
+(0 0) (1728 0) 
+
+ 
+
+ 
+
+Total ports(28524) 
+
+ 
+
+S.No 
+
+Port names 
+
+Count 
+
+1. 
+
+Signal 
+
+7378 
+
+ 
+
+Feedthroughs 
+
+21146 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Right ports 
+
+S.No 
+
+Port names 
+
+Count 
+
+1. 
+
+esb_pic* 
+
+1014 
+
+2. 
+
+pic_bam* & bam_pic* 
+
+1027 
+
+3. 
+
+Pic_pic* 
+
+179 
+
+4. 
+
+Other ports 
+
+253 
+
+ 
+
+Total 
+
+2473 
+
+ 
+
+Feedthroughs 
+
+10603 
+
+ 
+
+Total 
+
+13039 
+
+ 
+
+ 
+
+Right top 
+
+ 
+
+S.No 
+
+Port names 
+
+Count 
+
+ 
+
+sdw0* 
+
+108 
+
+2. 
+
+sdmux2anp* 
+
+2088 
+
+3. 
+
+anp2sdmux 
+
+233 
+
+ 
+
+ 
+
+2432 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Right _3 side 
+
+ 
+
+S.No 
+
+Port names 
+
+Count 
+
+ 
+
+Anp2sdmux* 
+
+1815 
+
+2. 
+
+other 
+
+32 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Right 4th side 
+
+ 
+
+S.No 
+
+Port names 
+
+Count  
+
+1. 
+
+octal_debug* 
+
+48 
+
+2. 
+
+pic_cpur* 
+
+41 
+
+3. 
+
+pic_pic_telemetry* 
+
+86 
+
+4. 
+
+Other  
+
+27 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Dataflow  
+
+ 
+
+Esb_pic* (all are ips) -----> HDFT_WRAPPER_IN_u_pic_ns0_ft_wrap/u_egress_dmac_wrapper/fan-----> u_pic_ns0_ft_wrap/u_egress_dmac_wrapper/u_rx_dmac/* -----> 
+
+ 
+
+ 
+
+HDFT_WRAPPER_IN_CDN_MBIT_dfb_wrap/dfb_smp_vxbit_efc_arc_q_stat_11408/pipe_0__sampler 
+
+HDFT_WRAPPER_IN_u_pic_redundancy_core/u_pic_core/CDN_MBIT* 
+u_pic_ns0_ft_wrap/u_egress_dmac_wrapper/u_rx_dmac/* 
+
+########################################################################
+
+Macro placement Guidelines from Or for pic_ns0/pic_ns3 
+
+pic is talking to esb and sdw. 
+
+data is going from esb to sdw and vice-versa.  
+
+tx is coming from esb and going to sdw 
+
+tx memories should sit near by esb ports/interface 
+
+tx logic cloud will set near by sdw interfacce 
+
+rx is coming from sdw and going to bump  
+
+Rx mem should place near by sdw. 
+
+logic cloud rx will set near by bumb interface 
+
+mibs memories will have comm between tx and rx, those should place in the middle of the block. 
+
+uctrl should place at right side. 
+
+shared buffer mem will be removed in next release. 
+
+clocks. sys,mac,ifc are main functional clks 
+
+sys clk --- mibs mem 
+
+mc/fc are talking to uctrl 
+
+mac clk is talking shared memories 
+
+all pic blocks have same grouping 
+
+tx should be 1 dfx client 
+
+120 max mem per dfx client 
+
+shared mem having 2 dfx clients 
+
+ 
+
+RTL 
+
+undriven issues, timing and other issues --- feedback given to designer 
+
+check degradation btw syn to fp and its reason 
+
+new def 
+
+ 
+
+ 
+
+rev_4.0.3, change dim as per latest 
+
+false paths are under block template.temp.sdc have all false paths from designer. it will directly read from the flow. 
+
+we have to remove if not needed. its for temporary (block_func_sdc). 
+
+ 
+
+ 
+
+1.timing is critical 
+
+2. clock gating coverage is less 
+
+3. congestion is also critical 
+
+4. memory count is 250 
+
+5. mac clock is there 2.7ghz 
+
+6. pic communication is to esb and sdw 
+
+7. sdw ports are left and esb & bump ports to right(this is temporary) 
+
+8.pin placement we will get from top in next release. 
+
+9.it is critical wrt to FT. 
+
+10. 
+
+ #######################################################
+
+
+
+
+
+
+
+ 
