@@ -5,29 +5,35 @@ $ = represents end of the line
  !  =pipe the content of the external command
 
 ###################################################################################################################################
-1. %!grep "Path" = it will search"Path" entire line printed
-	2. :%s/Path/RK/g =replace one word another
-	3. :g:Groups:d =the word in Groups deleted
-	4. :%s/$/vinod/ =vinod word added in last all the lines
+	1. :pwd =to know the working area
+	2. :f =to know the file full path
+	3. %!grep "Path" = it will search"Path" entire line printed
+	4. :%s/Path/RK/g =replace one word another
+	5. :g:Groups:d =the word in Groups deleted
+	6. :%s/$/vinod/ =vinod word added in last all the lines
 	(or)
 	:%s,$, > start_points_65_paths.rpt,g
 	
-	5. :%s/^/vinod / =vinod word added in first of all the lines
+	7. :%s/^/vinod / =vinod word added in first of all the lines
 	(Or)
 	:%s,^,report_timing -from ,g 
 	
-	6. :%s/$/\r =each line by line space b/w them
-	7. :%!awk '{print $1}' =its prints the entire file first record
-	8. :%s, ,\r,g  = it will print endpoint to a new line
+	8. :%s/$/\r =each line by line space b/w them
+	9. :%s, ,\r,g  = it will print endpoint to a new line
 	
-   9 :%s/ /\r
- 10.  :vg/Beginpoint\|Endpoint/d =except Begni Point and End point all are deleted
+   9.   :%s/ /\r
+  10.  :vg/Beginpoint\|Endpoint/d =except Begining Point and End point all are deleted
 	11. :g/Arrival/d
-	12. :%! awk '$4 <= -0.050 {print $2,$3,$4}' = it will print above -50ps slack value
-	13. Cut and paste 
+	12. Cut and paste 
 	 - first cursor the word or number and do "ma"
 	 -end cursor (you want word or number) and do "mb"
 	:'a'bd
 	 (or)
 	First set the numbers and do 
-:8,246d (8 to 246 line numbers are deleted)
+	:8,246d (8 to 246 line numbers are deleted)
+	13. :%s#\/Q[0-9]## = it remove the Q 0 to 9 in all the lines where it will there its deleted
+	14. :g!//d  =delete the all the line except highlighted ones
+	15. :g//d =deleted highlighted ones, entire row also deleted
+	16. :%s/$/\=line('.')/     =it will add end of each line numbers 
+	17. :%s/$/\\/  = it will add \ these syambol to the last
+18 :%s/(^)//g = it will remove "(^)" word all the lines
