@@ -1,0 +1,83 @@
+#### flow setup ######
+	
+	proj_swgrp t100 techtsmc003p fiptsmc003p shastaa0
+
+	##marshell t100 T100_Model_Code_Complete -n T100_Model_Code_Complete -t Backend -u dbc2
+	
+	marshell t100 T100_Model_IF -n T100_Model_Code_Complete -t Backend -u dbc2
+	
+###### RTL RUN #####
+
+	1. mate -id dbc2_trail_run_17jan -start rtl_query -end rtl_query = rtl run
+
+##### SYN RUN #####
+
+	2. mate -id dbc2_trail_run_17jan -start genus_syn -end genus_syn -cont dbc2/rtl/dbc2_trail_run_17jan /work/rtl_query  = synth run
+	
+######LEC RUN ######
+
+	3. mate -id dbc2_trail_run_17jan -start lec_rvg -end lec_rvg -cont dbc2/rc/dbc2_trail_run_17jan/work/genus_syn/  =    lec_run
+
+	
+	
+           ##### PNR RUNS ######
+	4. mate -id dbc2_trail_run_20jan_1 -start enc_flp -end enc_flp -mid enc_flp.create_frame_cmd -cont dbc2/rc/dbc2_trail_run_17jan/work/genus_syn/ =flp run
+	
+	5. mate -id dbc2_trail_run_20jan_1 -start enc_plc -end enc_plc -cont dbc2/enc/dbc2_trail_run_20jan_1/work/enc_flp/   = plc run 
+	
+	6. mate -id dbc2_trail_run_20jan_1 -start enc_clk -end enc_mcf -cont dbc2/enc/dbc2_trail_run_20jan_1/work/enc_plc/ =clk to mcf run
+	
+NOTE : 
+After enc_flp create_frame_cmd
+Need source these below command
+source ../../script/enc_flp/enc_flp.mid.tcl
+
+
+                                                             #######   Run xt_qrc & sta_pt  ########                                  
+
+· mate -id DFBdef_22Jan2025_RUN1_macro_changes1 -start xt_qrc -end sta_pt -cont dbc2/enc/DFBdef_22Jan2025_RUN1_macro_changes1/work/enc_mcf/
+
+                                                                ########  Run glc_chk ########                                              
+
+· mate -id DFBdef_22Jan2025_RUN1_macro_changes1 -start glc_chk -end glc_chk -cont dbc2/sta/DFBdef_22Jan2025_RUN1_macro_changes1/work/sta_pt/
+
+                                                                      ######Run enc_chk ######                                                        
+
+· mate -id DFBdef_22Jan2025_RUN1_macro_changes1 -start enc_chk -end enc_chk -cont dbc2/enc/DFBdef_22Jan2025_RUN1_macro_changes1/work/enc_mcf/
+
+                                                                       #######Run Pgv_voltus #########                                          
+
+· mate -id DFBdef_22Jan2025_RUN1_macro_changes1 -start pgv_qrc -end pgv_voltus -cont dbc2/sta/DFBdef_22Jan2025_RUN1_macro_changes1/work/sta_pt/ 
+
+                                                                       ######## Run mnt_tk #######                                    
+
+· mate -id DFBdef_22Jan2025_RUN1_macro_changes1 -start mnt_tk -end mnt_tk -cont dbc2/sta/DFBdef_22Jan2025_RUN1_macro_changes1/work/sta_pt/
+
+                                                     ####### lec_rvg with power on enc_mcf netlist ########                                 
+
+· mate -id DFBdef_22Jan2025_RUN1_macro_changes1_power -start lec_rvg -end lec_rvg -cont dbc2/enc/DFBdef_22Jan2025_RUN1_macro_changes1/work/enc_mcf/
+
+Mixer_placer run:
+
+mate -id DFBdef_23Jan2025_RUN_Mixplacer -start enc_flp -end enc_flp -mid enc_flp.fix_pins_cmd -cont dbc2/rc/dbc2_trail_run_17jan/work/genus_syn/
+After def out below to start run
+mate -id DFBdef_24Jan2025_RUN_Mixplacer -start enc_flp -end enc_flp  -cont dbc2/rc/dbc2_trail_run_17jan/work/genus_syn/
+
+To load innovus db :
+1.innovus -sgq long -sgm 40 -sgc 4
+2.restoreDesign /proj/t100/BE/T100_Model_Code_Complete/Exchange/Top_innovus_db/t100_top_CC.bbox_DFB_Jan05.dat
+
+0r 
+innovus -sgq long -sgm 40 -sgc 4
+set restore_db_file_check 0
+restoreDesign dbc2/enc/<run_name>/db/enc_mcf/dbc2.enc.dat
+
+Or 
+
+To load the db flp stage:
+
+mate -id T100_dbc2_trail_run1 -start enc_plc -end enc_plc.readonly_complete_cmd -cont dbc2/enc/T100_dbc2_trail_run1/work/enc_flp/
+
+
+To open mcf fp
+mate -id DFBdef_5FEB_Mixplacer_run_mcf_db -start enc_eco -end enc_eco.readonly_complete_cmd -cont dbc2/enc/DFBdef_5FEB_Mixplacer_run/work/enc_mcf
