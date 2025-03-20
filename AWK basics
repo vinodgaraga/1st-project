@@ -1,0 +1,7 @@
+	1. :%!awk '{print $1}' =its prints the entire file first record
+	2. :%!awk '/Slack Time/' = its printed whrever Slack Time will be there in entire file
+	3. :%!awk '{print "RK " $0}'  = it will add starting of the all lines
+	4. :%!awk '{print $0, " RK"}' =it will add ending of the all lines
+	5. :%!awk '$4 <= -0.050 {print $2,$3,$4}' = it will print above -50ps slack value
+	6.  :%!awk '{print $0, NR} = it will add end of each line numbers in order
+  7. :%!awk '{sub(/triggered$/, ""); print}' = it will remove "triggered " word all the lines
