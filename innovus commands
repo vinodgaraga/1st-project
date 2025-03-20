@@ -1,0 +1,5 @@
+To highlight the particular path in gui
+
+	·   report_timing -from u_dbc2_core/u_dtm_mec_wrapper/dtm_cg_fifo_wrp_6/u_mem1_bnk_0_0/PHYSICAL_MODE_0_table_inst_0/table_core/table_bank_0/dfx_ram_dbc2_cg_fifo_inst0_id1_synopsys_1wr_rf1pr256x266_0/dfx_ram_env/dfx_ram_test_path/dfx_ram_test_req/dfx_ram_test_req_in_sampler/sample_test_ctrl/data_out_q_reg_0_/Q -to u_dbc2_core/u_dtm_mec_wrapper/dtm_cg_fifo_wrp_6/u_mem1_bnk_0_0/PHYSICAL_MODE_0_table_inst_0/table_core/table_bank_0/dfx_ram_dbc2_cg_fifo_inst0_id1_synopsys_1wr_rf1pr256x266_0/memory/WE -machine_readable > p
+	· load_timing_debug_report p
+	· highlight_timing_report -file p -all
