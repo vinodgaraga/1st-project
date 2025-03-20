@@ -1,0 +1,44 @@
+1.count of block level ports
+	• dbget top.numterms (or) llength [dbget top.terms] 
+2.count of input ports 
+	• sizeof_collection [all_inputs]
+3.count of output ports
+	• sizeof_collection [all_outputs]
+4. To get routing metal layers
+	• dbget [dbget head.layers.type routing -p].name
+5.To get particular metal layer min width
+	• dbget [dbget [dbget head.layers.type routing -p].name *2 -p].minwidth
+6.To get particular metal layer min spacing
+	• dbget [dbget [dbget head.layers.type routing -p].name *12 -p].minspacing
+7.To get the placement blockages in design
+	• llength [dbget top.fplan.pBlkgs.inst]
+8.To get the Routing blockages in design
+	• llength [dbget top.fplan.rBlkgs.inst]
+9.To get x and y cordinate of selected
+     dbget selected.pt_x
+     dbget selected.pt_y
+10.To get block Dimensions
+dbGet top.FPlan.box_size
+11.To get macro your design
+dbGet [dbGet top.insts.cell.baseClass block -p2].name
+
+
+
+####################################################################
+  
+1.To highlight the port in gui
+highlight [dbGet -p top.terms.name sys_clk] -index 1
+2.To highlight the cell in gui
+highlight [dbGet -p top.insts.name ANCHOR_sys_clk_45_FCLK_BUFFER]
+3.To know hierarachy given macro
+selectInstByCellName sasrls0g0p1p256x266m2b1w0c1p0l1rm4rw00h0ms0
+4.Display opr firefox - to open .png files
+5.To update the timing 
+timeDesign
+6.def will be saved in macros_only.def.gz )extension
+defOut_block macro_changes
+7.to write out place blockages (coordinates) to that file
+writeFPlanScript -sections placeBlockages -fileName partial_blockage.tcl
+	8. less /mrvl2g/dc3_store/t100/t100_d2/wa/vvenkatarama/T100_Model_IF/dbc2/enc/26_02_plc_DB_Mp2/work/enc_clk/2_top | egrep "Beginingpoint|Endpoint|Slack"
+9.grep "Endpoint" /mrvl2g/dc3_store/t100/t100_d2/wa/vvenkatarama/T100_Model_IF/dbc2/enc/26_02_plc_DB_Mp2/work/enc_clk/1_top | less
+10.
