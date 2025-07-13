@@ -37,3 +37,4 @@ $ = represents end of the line
 	16. :%s/$/\=line('.')/     =it will add end of each line numbers 
 	17. :%s/$/\\/  = it will add \ these syambol to the last
 18 :%s/(^)//g = it will remove "(^)" word all the lines
+19.:%s/^\s\+// = it will remove all the lines first space
