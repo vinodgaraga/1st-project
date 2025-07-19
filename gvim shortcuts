@@ -40,3 +40,4 @@ $ = represents end of the line
 19.:%s/^\s\+// = it will remove all the lines first space
 20.:%s/\<rising edge-triggered flip-flop clocked by core_clk\>//g =wherever word placed it will remove
 21.:%s/[()]//g =() syambol will be removed all the lines or whrever in gvim file remove
+22.:g/^\s*$/d = it will remove line by line space
