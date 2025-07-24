@@ -1,0 +1,24 @@
+Get_db selected .name       = 
+Select_obj "cell or net"    = 
+Deselect_obj 
+Get_db  designs .bbox        = 
+Get_db  designs .bbox.llength =
+Get_db  designs .bbox.width  =
+Get_db designs .name         = 
+
+ llength [get_db insts -if {.is_macro == 1}]  =
+
+ llength [Get_db ports]
+llength [get_db designs .ports -if {.direction ==in}]
+llength [get_db designs .ports -if {.direction ==out}]
+ llength [get_db ports -if {.side == east}] 
+
+Get_db ports .layer.name -unigue 
+
+Get_db [get_db layers -if {.type == routing}] .name
+
+get_db [get_db layers -if {.type == routing && .name == M2}] .min_width
+
+Get_db insts -if {.place_status == unplaced}
+
+Get_db insts .name *tap* or *FILLER*
