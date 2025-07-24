@@ -1,0 +1,21 @@
+- crtl+shift+c = copy the path
+- chift+insert =paste that path
+- alt+b = one step backward
+- alt+f = one step farward
+- esc+backspace = to remove one word
+- cd - = previous run directory
+- gg = go to top
+- shift g = go to down
+- gvimdiff -two files difference
+- shift d =delete in gui
+- ctrl u =remove type in line (less or gvim)
+- q = exit in less cmnd
+- home = back
+- end =forward
+- n(scrol highlight one step down)
+- dw -first word line delete
+- du -sh ./* =to check storage of each folder
+- :bd = go back gvim 
+- :gf = go to the inside that path
+- eog ,that file =to open that png
+- Set nowrap - it will be show single line
