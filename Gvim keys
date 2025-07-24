@@ -1,0 +1,22 @@
+Gvim keys :
+	1. :%s $! = any command execute we ca use ex: awk, grep, basic switches
+	2. U = undo
+	3. ^ - first 
+	4. $ -last
+	5. gc =global variable
+	6. :%s! Sort -u =hierarchical reg will be not repeated
+	7. :%s[0-9]\+#*#gc =replace number with * symbol
+	8. :%s#phi#clk#gc =replace phi with clk
+	9. :%s#^#report_timing -from #gc =start of the all line add report timing
+	10. And then press (a) =all lines would be added
+	11. :g;word;d =in word place whatever the name can be remove
+	12. :g0;word:d =delete except the word you mention
+	13. :%!awk '{print $2}' =print the second record 
+	14.  :%!grep "Error"
+	15. :%s/^/get_attribute [get_pins /g =starting of the file added
+	16. :%s/start_point/change_selction/g =name replace
+
+	17. :%s#BUFF_1#BUFF_4#
+	18. %! Awk '{print "eco_update_cell -insts "$1" -cells "$2""}' = it will add the  eco_update_cell $1 coloumn -cells add $2 coloumn
+	19. :g/Startpoint\|Endpoint/p = startpoint and endpoint  rows will be printed next do below cmnd
+	20. :g!//d = except yellow highlight ones all deleted
