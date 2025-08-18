@@ -19,4 +19,5 @@ Gvim keys :
 	17. :%s#BUFF_1#BUFF_4#
 	18. %! Awk '{print "eco_update_cell -insts "$1" -cells "$2""}' = it will add the  eco_update_cell $1 coloumn -cells add $2 coloumn
 	19. :g/Startpoint\|Endpoint/p = startpoint and endpoint  rows will be printed next do below cmnd
-	20. :g!//d = except yellow highlight ones all deleted
+	20. :g!//d = except yellow highlight ones all deleted 
+    21.Ctrl-V and shift -G and right arrorw(>) = it wil delete the first column in all the lines
