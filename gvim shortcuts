@@ -41,3 +41,31 @@ $ = represents end of the line
 20.:%s/\<rising edge-triggered flip-flop clocked by core_clk\>//g =wherever word placed it will remove
 21.:%s/[()]//g =() syambol will be removed all the lines or whrever in gvim file remove
 22.:g/^\s*$/d = it will remove line by line space
+grep "Startpoint:" ./final/rx_pdr_top_macro.report_timing.max | awk '{if($1 == "Startpoint:") {print $2}}'
+
+grep "slack (" ./final/rx_pdr_top_macro.report_timing.max | awk '{print $3}'
+
+grep "Endpoint:" ./final/rx_pdr_top_macro.report_timing.max | awk '{if($1 == "Endpoint:") {print $2}}'
+
+grep "Startpoint:\|Endpoint:\|slack" ./final/rx_pdr_top_macro.report_timing.max | awk '{print }'
+
+cat T | awk ' {print $1}' | sort -u | wc -l
+
+awk '{if ($3>-0.07) {print $0}}' sms_ifc_macro.report_timing.max.summary.rpt | awk '{if ($3<-0.002) {print $0}}' | sort -nk3 | less  (bewteen slack)
+
+
+%!tr "\n" " "   ---> it will combine all lines to single line
+: --> it remove line end letters.
+:  spilt line to new line.
+%s:WA\[.*\]: :gc
+%s:\[.*\] -remove last []
+
+Diff -y --suppers-common-lines <file1> <file2>
+
+
+awk '{ $13 = $13 "_" ++i; print }' 1d | less
+
+%!awk '{ print "eco_add_repeater -pins ",$1,"-cells",$2,"-location [get_db pin:"$1" .location]"}'
+
+:echo expand ('%:p') > to find the realpath gvim file
+
